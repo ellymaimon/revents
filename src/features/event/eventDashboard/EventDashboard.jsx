@@ -4,7 +4,7 @@ import EventList from '../eventList/EventList';
 import EventForm from '../eventForm/EventForm';
 
 // Dummy Events
-const events = [
+const mockEvents = [
   {
     id: '1',
     title: 'Trip to Tower of London',
@@ -56,15 +56,33 @@ const events = [
 ]
 
 class EventDashboard extends Component {
+    state = {
+       events: mockEvents,
+       isOpen: false
+    }
+
+  handleFormOpen = () => {
+    this.setState({
+      isOpen: true
+    })
+  }
+
+  handleCancel = () => {
+    this.setState({
+      isOpen: false
+    })
+  }
+  
   render() {
     return (
       <Grid>
         <Grid.Column width={10}>
-          <EventList events={events}/> 
+          <EventList events={this.state.events}/> 
         </Grid.Column>
         <Grid.Column width={6}>
-          <Button content="Create Event" positive />
-          <EventForm />
+          <Button onClick={this.handleFormOpen} content="Create Event" positive />
+          { this.state.isOpen &&
+          <EventForm handleCancel={this.handleCancel} /> }
         </Grid.Column>
       </Grid>
     )
